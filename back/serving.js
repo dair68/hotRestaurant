@@ -12,7 +12,7 @@ var data = [
         routeName: "test",
         name: "Test",
         phone: 1234567890,
-        email: "superthirst@uranus.com",
+        email: "test@tests.com",
         uniqueID: "F65rt"
       }
 ];
@@ -45,7 +45,17 @@ app.get("/api/data/:reservation", function(request, response) {
     };
 
     return response.json(false);
-})
+});
+
+app.post("api/data", function(request, response) {
+    var newCustomer = request.body;
+
+    newCustomer.routeName = newCustomer.name.replace(/\s+/g, "").toLowerCase();
+
+    console.log(newCustomer);
+    data.push(newCustomer);
+    response.json(newCustomer);
+});
 
 app.listed(PORT, function() {
     console.log("App listening on PORT " + PORT);
