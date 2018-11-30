@@ -53,17 +53,20 @@ app.get("/api/data/:reservation", function (request, response) {
 
 app.post("api/data", function (request, response) {
     var newCustomer = request.body;
+    var position = "";
 
     newCustomer.routeName = newCustomer.name.replace(/\s+/g, "").toLowerCase();
     console.log(newCustomer);
 
     if (available.length === 5) {
         waitlist.push(newCustomer);
+        position = "Waitlist";
     } else {
         available.push(newCustomer);
+        position = "Reserved";
     }
     
-    response.json(newCustomer);
+    response.json(newCustomer, "\n", "Position: " + position);
 });
 
 app.listed(PORT, function () {
