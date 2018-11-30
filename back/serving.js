@@ -7,56 +7,65 @@ var PORT = 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-var data = [
+var available = [
     {
         routeName: "test",
         name: "Test",
         phone: 1234567890,
         email: "test@tests.com",
         uniqueID: "F65rt"
-      }
+    }
 ];
 
-console.log(data[0].routeName)
+var waitlist = [];
 
-app.get("/", function(request, response) {
+console.log(available[0].routeName)
+
+app.get("/", function (request, response) {
     response.sendFile(path.join(__dirname, "../front/index.html"))
 });
 
-app.get("/form", function(request, response) {
+app.get("/form", function (request, response) {
     response.sendFile(path.join(__dirname, "../front/form.html"))
 });
 
-app.get("/reservation", function(request, response) {
+app.get("/reservation", function (request, response) {
     response.sendFile(path.join(__dirname, "../front/reservation.html"))
 });
 
-app.get("/api/data", function(request, response) {
-    return response.json(data);
+app.get("/api/data", function (request, response) {
+    return response.json(available), response.json(waitlist);
 });
 
-app.get("/api/data/:reservation", function(request, response) {
-    var customer = requests.params.reservation;
+app.get("/api/data/:reservation", function (request, response) {
+    var customer = request.params.reservation;
 
-    for (var d = 0; d < data.length; d++) {
-        if (customer === data[i].routeName) {
-            return response.json(data[i]);
+    for (var i = 0; i < available.length; i++) {
+        if (customer === available[i].routeName) {
+            return response.json(available[i]);
+        } else if (customer === waitlist[i].routeName) {
+            return response.json(waitlist[i]);
         };
     };
 
     return response.json(false);
 });
 
-app.post("api/data", function(request, response) {
+app.post("api/data", function (request, response) {
     var newCustomer = request.body;
 
     newCustomer.routeName = newCustomer.name.replace(/\s+/g, "").toLowerCase();
-
     console.log(newCustomer);
-    data.push(newCustomer);
+
+    if (available.length === 5) {
+        waitlist.push(newCustomer);
+    } else {
+        available.push(newCustomer);
+    }
+    
     response.json(newCustomer);
 });
 
-app.listed(PORT, function() {
+app.listed(PORT, function () {
     console.log("App listening on PORT " + PORT);
 });
