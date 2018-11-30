@@ -66,7 +66,7 @@ app.post("api/data", function (request, response) {
         position = "Reserved";
     }
     
-    response.json(newCustomerm, "\n", "Position: " + position);
+    response.json(newCustomer, "\n", "Position: " + position);
 });
 
 app.listed(PORT, function () {
