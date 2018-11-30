@@ -22,15 +22,15 @@ var waitlist = [];
 console.log(available[0].routeName)
 
 app.get("/", function (request, response) {
-    response.sendFile(path.join(__dirname, "../front/index.html"))
-});
-
-app.get("/form", function (request, response) {
-    response.sendFile(path.join(__dirname, "../front/form.html"))
+    response.sendFile(path.join(__dirname, "../front/home.html"))
 });
 
 app.get("/reservation", function (request, response) {
     response.sendFile(path.join(__dirname, "../front/reservation.html"))
+});
+
+app.get("/tables", function (request, response) {
+    response.sendFile(path.join(__dirname, "../front/tables.html"))
 });
 
 app.get("/api/data", function (request, response) {
